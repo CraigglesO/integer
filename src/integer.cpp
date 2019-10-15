@@ -394,15 +394,15 @@ private:
 	static constexpr uint64_t I64_in_U64 = (uint64_t)MAX_VALUE;
 	static constexpr uint64_t U32_in_U64 = (uint64_t)0xffffffffLU;
 	static const size_t STRING_BUFFER_LENGTH = 72;
-	static v8::Persistent<v8::Function> constructor;
-	static v8::Persistent<v8::FunctionTemplate> constructorTemplate;
-	static ConstructorController controller;
+	thread_local static v8::Persistent<v8::Function> constructor;
+	thread_local static v8::Persistent<v8::FunctionTemplate> constructorTemplate;
+	thread_local static ConstructorController controller;
 	
 	const int64_t value;
 };
 
-v8::Persistent<v8::Function> Integer::constructor;
-v8::Persistent<v8::FunctionTemplate> Integer::constructorTemplate;
-Integer::ConstructorController Integer::controller;
+thread_local v8::Persistent<v8::Function> Integer::constructor;
+thread_local v8::Persistent<v8::FunctionTemplate> Integer::constructorTemplate;
+thread_local Integer::ConstructorController Integer::controller;
 
-NODE_MODULE(integer, Integer::Init);
+NODE_MODULE_CONTEXT_AWARE(integer, Integer::Init);
